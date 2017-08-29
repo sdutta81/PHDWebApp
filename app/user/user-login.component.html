@@ -1,0 +1,21 @@
+<div>
+    <label>For </label>
+    <select>
+        <option value="0">Me</option>
+        <option value="1">Health Provider</option>
+        <option value="2">Lab Tech</option>
+        <option value="3">Pharmacist</option>
+    </select>
+    <input id="username" type="text" #txtUser />
+    <input id="password" type="password" #txtPassword />
+    <input id="login" type="submit" (click)="onSubmit(txtUser.value, txtPassword.value)"/>
+    <a target="_blank" href="https://angular.io/tutorial">Register New</a>
+    <div class="warn" *ngIf="isSucces===false">
+        <label>Please check your User Id or Password.</label>
+        <a target="_blank" href="https://angular.io/tutorial">Forgot/ Reset Password</a>
+    </div>
+</div>
+
+<!--
+    <user-details [message]="result" [loggedinUser]="verifiedUser"></user-details>
+-->
