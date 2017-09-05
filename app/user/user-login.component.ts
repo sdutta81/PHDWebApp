@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
-import { UserInfo } from './';
+import { UserInfo, LoginInfo } from './';
+import { UserService } from '../service/user.service';
 
 import 'lodash';
 declare var _;
@@ -14,8 +15,12 @@ declare var _;
 export class UserLogin {
     isSucces: boolean;
     verifiedUser: UserInfo;
+    loginInfo: LoginInfo;
 
-    constructor(private router: Router) { }
+    constructor(
+      private router: Router,
+      private service: UserService
+    ) { }
 
     userInfos: UserInfo[] = [
         { uid: 'sdutta', password: '1234', firstName: 'Somenath', lastName: 'Dutta' },
@@ -26,12 +31,15 @@ export class UserLogin {
         this.verifiedUser = _.find(this.userInfos, function(txtUid) {
           return txtUid.uid === txtUser && txtUid.password === txtPassword;
         })
+
+        this.service.validateUser(txtUser, txtPassword)
+        .subscribe(item => this.loginInfo = item);
     
         this.isSucces = false;
         if(this.verifiedUser) 
         {
           this.isSucces = true;
-          this.router.navigate(['/details', this.verifiedUser.uid]);
+          this.router.navigate(['/details', this.loginInfo.uid]);
         }
     }
 }
