@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from "@angular/router";
+
 import { UserInfo } from './';
+import { UserService } from '../service/user.service';
 
 import 'lodash';
 declare var _;
@@ -13,19 +15,16 @@ declare var _;
 export class UserDetails implements OnInit {
     loggedinUser: UserInfo;
 
-    userInfos: UserInfo[] = [
-        { uid: 'sdutta', password: '1234', firstName: 'Somenath', lastName: 'Dutta' },
-        { uid: 'modutta', password: '4321',firstName: 'Monalisa', lastName: 'Dutta' }
-    ];
-
-    constructor(private route: ActivatedRoute) { 
-        this.loggedinUser = null;
-    }
+    constructor(
+        private route: ActivatedRoute,
+        private service: UserService
+    ) { }
 
     ngOnInit(): void {
         this.route.params.subscribe(params => {
-            this.loggedinUser = _.find(this.userInfos, function(infos) {
-                return infos.uid === params['uid'];
+            this.service.getUserDetails(params['uid'], params['guid'])
+            .subscribe(userDetails => {
+                this.loggedinUser = userDetails;
             });
         });
     }

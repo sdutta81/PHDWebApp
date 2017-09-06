@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
-import { UserInfo, LoginInfo } from './';
+
+import { LoginInfo, LoginCredentials } from './';
+
 import { UserService } from '../service/user.service';
 
 import 'lodash';
@@ -14,32 +16,29 @@ declare var _;
 
 export class UserLogin {
     isSucces: boolean;
-    verifiedUser: UserInfo;
-    loginInfo: LoginInfo;
+    verifiedUser: LoginInfo;
+    loginCredentials: LoginCredentials;
 
     constructor(
       private router: Router,
       private service: UserService
     ) { }
 
-    userInfos: UserInfo[] = [
-        { uid: 'sdutta', password: '1234', firstName: 'Somenath', lastName: 'Dutta' },
-        { uid: 'modutta', password: '4321',firstName: 'Monalisa', lastName: 'Dutta' }
-    ];
-
     onSubmit(txtUser: string, txtPassword: string): void {
-        this.verifiedUser = _.find(this.userInfos, function(txtUid) {
-          return txtUid.uid === txtUser && txtUid.password === txtPassword;
-        })
+      this.loginCredentials = { Uid: txtUser, Pwd: txtPassword};
+      this.isSucces = false;
 
-        this.service.validateUser(txtUser, txtPassword)
-        .subscribe(item => this.loginInfo = item);
-    
+      this.service.validateUser(this.loginCredentials)
+      .subscribe(loginData => {
+        this.verifiedUser = loginData;
         this.isSucces = false;
-        if(this.verifiedUser) 
-        {
-          this.isSucces = true;
-          this.router.navigate(['/details', this.loginInfo.uid]);
+        if(this.verifiedUser) {
+          this.gotoDetails();
         }
+      });
+    }
+
+    gotoDetails() : void {
+      this.router.navigate(['/details', this.verifiedUser.Uid, this.verifiedUser.Guid]);
     }
 }

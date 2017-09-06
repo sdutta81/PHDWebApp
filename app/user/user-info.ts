@@ -2,8 +2,9 @@ import { AddressInfo } from './';
 
 export class UserInfo {
     uid: string;
-    password: string;
+    guid: string;
     firstName: string;
+    middleName: string;
     lastName: string;
     dob?: Date;
     country?: number;

@@ -1,4 +1,4 @@
 export class LoginInfo {
-    uid: string;
-    guid: string;
+    Uid: string;
+    Guid: string;
 }
