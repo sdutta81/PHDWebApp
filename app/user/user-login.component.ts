@@ -25,7 +25,7 @@ export class UserLogin {
     ) { }
 
     onSubmit(txtUser: string, txtPassword: string): void {
-      this.loginCredentials = { Uid: txtUser, Pwd: txtPassword};
+      this.loginCredentials = { uid: txtUser, pwd: txtPassword};
       this.isSucces = false;
 
       this.service.validateUser(this.loginCredentials)

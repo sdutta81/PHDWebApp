@@ -1,4 +1,4 @@
 export class LoginCredentials {
-    Uid: string;
-    Pwd: string;
+    uid: string;
+    pwd: string;
 }
